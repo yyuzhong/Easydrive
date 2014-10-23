@@ -2,15 +2,16 @@
 create table Office
 (
     officeNo INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    city     char(32),
     address  char(255),
     postCode char(5),
     telNo    char(10),
     faxNo    char(10)
 );
 
-INSERT INTO Office(address, postCode, telNo,faxNo) VALUES ("5606 Bissonnet St","77081","8325122357","8325122357");
-INSERT INTO Office(address, postCode, telNo,faxNo) VALUES ("5706 Bellaire Blvd","77096","7132955255","7132955255");
-INSERT INTO Office(address, postCode, telNo,faxNo) VALUES ("P.O. Box 519","77746","9362613311","9362613311");
+INSERT INTO Office(city,address, postCode, telNo,faxNo) VALUES ("Houston","5606 Bissonnet St","77081","8325122357","8325122357");
+INSERT INTO Office(city,address, postCode, telNo,faxNo) VALUES ("Houston","5706 Bellaire Blvd","77096","7132955255","7132955255");
+INSERT INTO Office(city,address, postCode, telNo,faxNo) VALUES ("Prairie View","P.O. Box 519","77746","9362613311","9362613311");
 
 create table Client
 (
