@@ -221,11 +221,16 @@ create table DrivingTest
     attempt integer,
     result  integer,
     pTestComment char(255),
-    testMark    char(10),
+    testMark    char(255),
     tTestComment char(255),
     staffNo integer not null,
     clientNo integer not null,
     foreign key(staffNo) references Staff on update cascade,
     foreign key(clientNo) references Client on update cascade
 );
+
+
+INSERT INTO DrivingTest(testDate,testTime,testCenter,testerName,attempt,result,pTestComment,testMark,tTestComment,staffNo,clientNo)
+       values('2014-08-10','10:10:00',"Cypress","Dr. Clee",1,90,"Ready to drive","Pass","Awesome",(SELECT staffNo from Staff where Staff.firstName="Yonggao"),(SELECT clientNo from Client where Client.firstName="Mahsa"));
+
 
