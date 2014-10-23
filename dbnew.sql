@@ -62,13 +62,16 @@ create table Staff
 );
 
 INSERT INTO Staff(firstName, lastName, address,jobTitle,salary,sex,DOB,email,password,officeNo) 
-            VALUES ("Lei","Huang","5760 Indigo St","Instructor","9999","M",'1974-01-01',"lhuang@pvamu.edu","99999999",1);
+            VALUES ("Lei","Huang","5760 Indigo St","Instructor","9999","M",'1974-01-01',"lhuang@pvamu.edu","99999999",(SELECT officeNo from Office where Office.postCode="77081"));
 
 INSERT INTO Staff(firstName, lastName, address,jobTitle,salary,sex,DOB,email,password,officeNo) 
-            VALUES ("Lin","Li","5626 Blalock St","Instructor","8888","M",'1975-01-01',"linli@pvamu.edu","88888888",1);
+            VALUES ("Lin","Li","5626 Blalock St","Instructor","8888","M",'1975-01-01',"linli@pvamu.edu","88888888",(SELECT officeNo from Office where Office.postCode="77081"));
 
 INSERT INTO Staff(firstName, lastName, address,jobTitle,salary,sex,DOB,email,password,officeNo) 
-            VALUES ("Yonggao","Yang","10000 Sheffield gray trail","Manager","9999","M",'1970-01-01',"yyang@pvamu.edu","666666",1);
+            VALUES ("Yonggao","Yang","10000 Sheffield gray trail","Manager","9999","M",'1970-01-01',"yyang@pvamu.edu","666666",(SELECT officeNo from Office where Office.postCode="77746"));
+
+INSERT INTO Staff(firstName, lastName, address,jobTitle,salary,sex,DOB,email,password,officeNo) 
+            VALUES ("James","Pryor","784 Somewhere else Blvd","Manager","99999","M",'1979-12-01',"james@here.edu","12345",(SELECT officeNo from Office where Office.postCode="77096"));
 
 
 create table Manage
@@ -85,6 +88,10 @@ INSERT INTO Manage(staffNo, officeNo)
 
 INSERT INTO Manage(staffNo, officeNo)
        values((SELECT staffNo from Staff where Staff.firstName="Yonggao"),(SELECT officeNo from Office where Office.postCode="77746"));
+
+INSERT INTO Manage(staffNo, officeNo)
+       values((SELECT staffNo from Staff where Staff.firstName="James"),(SELECT officeNo from Office where Office.postCode="77096"));
+
 
 create table Vehicle
 (
