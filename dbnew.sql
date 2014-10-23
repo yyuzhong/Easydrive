@@ -10,6 +10,7 @@ create table Office
 
 INSERT INTO Office(address, postCode, telNo,faxNo) VALUES ("5606 Bissonnet St","77081","8325122357","8325122357");
 INSERT INTO Office(address, postCode, telNo,faxNo) VALUES ("5706 Bellaire Blvd","77096","7132955255","7132955255");
+INSERT INTO Office(address, postCode, telNo,faxNo) VALUES ("P.O. Box 519","77746","9362613311","9362613311");
 
 create table Client
 (
@@ -29,11 +30,18 @@ create table Client
 );
 
 INSERT INTO Client(firstName, lastName, address,postCode,telNo,driverLicenseNo,sex,DOB,email,password,officeNo) 
-            VALUES ("Yuzhong","Yan","5606 Bissonnet St","77081","8325122357","11111111","F",'1978-01-01',"yyuzhong@hotmail.com","11111111",1);
+            VALUES ("Yuzhong","Yan","5606 Bissonnet St","77081","8325122357","11111111","M",'1978-01-01',"yyuzhong@hotmail.com","11111111",(SELECT officeNo from Office where Office.postCode="77081"));
 
 
 INSERT INTO Client(firstName, lastName, address,postCode,telNo,driverLicenseNo,sex,DOB,email,password,officeNo) 
-            VALUES ("Jie","Zhang","5606 Bissonnet St","77081","2814094792","22222222","F",'1982-01-01',"zhangjlive@hotmail.com","22222222",1);
+            VALUES ("Jie","Zhang","5606 Bissonnet St","77081","2814094792","22222222","M",'1982-01-01',"zhangjlive@hotmail.com","22222222",(SELECT officeNo from Office where Office.postCode="77081"));
+
+
+INSERT INTO Client(firstName, lastName, address,postCode,telNo,driverLicenseNo,sex,DOB,email,password,officeNo) 
+            VALUES ("Hanbing","Yan","10000 Sheffield gray trail","77433","7135055997","33333333","F",'1992-01-01',"hyan@pvamu.edu","33333333",(SELECT officeNo from Office where Office.postCode="77746"));
+
+INSERT INTO Client(firstName, lastName, address,postCode,telNo,driverLicenseNo,sex,DOB,email,password,officeNo) 
+            VALUES ("Mahsa","Hanifi","Collage Station","77845","9794222360","44444444","F",'1985-01-01',"mahsa@pvamu.edu","44444444",(SELECT officeNo from Office where Office.postCode="77746"));
 
 
 create table Staff
@@ -54,10 +62,14 @@ create table Staff
 );
 
 INSERT INTO Staff(firstName, lastName, address,jobTitle,salary,sex,DOB,email,password,officeNo) 
-            VALUES ("Lei","Huang","5760 Indigo St","Instructor","9999","F",'1982-01-01',"lhuang@pvamu.edu","99999999",1);
+            VALUES ("Lei","Huang","5760 Indigo St","Instructor","9999","M",'1974-01-01',"lhuang@pvamu.edu","99999999",1);
 
 INSERT INTO Staff(firstName, lastName, address,jobTitle,salary,sex,DOB,email,password,officeNo) 
-            VALUES ("Lin","Li","5626 Blalock St","Instructor","8888","F",'1970-01-01',"linli@pvamu.edu","88888888",1);
+            VALUES ("Lin","Li","5626 Blalock St","Instructor","8888","M",'1975-01-01',"linli@pvamu.edu","88888888",1);
+
+INSERT INTO Staff(firstName, lastName, address,jobTitle,salary,sex,DOB,email,password,officeNo) 
+            VALUES ("Yonggao","Yang","10000 Sheffield gray trail","Manager","9999","M",'1970-01-01',"yyang@pvamu.edu","666666",1);
+
 
 create table Manage
 (
@@ -70,6 +82,9 @@ create table Manage
 
 INSERT INTO Manage(staffNo, officeNo)
        values((SELECT staffNo from Staff where Staff.firstName="Lei"),(SELECT officeNo from Office where Office.postCode="77081"));
+
+INSERT INTO Manage(staffNo, officeNo)
+       values((SELECT staffNo from Staff where Staff.firstName="Yonggao"),(SELECT officeNo from Office where Office.postCode="77746"));
 
 create table Vehicle
 (
@@ -88,6 +103,9 @@ create table Vehicle
 INSERT INTO Vehicle(model,maker,color,capacity,VIN,staffNo,officeNo)
        values("CRV","Honda","White",5,"11111111111111111",(SELECT staffNo from Staff where Staff.firstName="Lei"),(SELECT officeNo from Office where Office.postCode="77081"));
 
+INSERT INTO Vehicle(model,maker,color,capacity,VIN,staffNo,officeNo)
+       values("Accord","Honda","Black",5,"22222222222222222",(SELECT staffNo from Staff where Staff.firstName="Yonggao"),(SELECT officeNo from Office where Office.postCode="77746"));
+
 
 create table Inspection
 (
@@ -104,6 +122,9 @@ create table Inspection
 
 INSERT INTO Inspection(inspectionDate,inspectionTime,faultsFound,comments,staffNo,vehicleRegNo)
        values('2014-01-01','12:10:00',0,"No faults",(SELECT staffNo from Staff where Staff.firstName="Lei"),(SELECT vehicleRegNo from Vehicle where Vehicle.VIN="11111111111111111"));
+
+INSERT INTO Inspection(inspectionDate,inspectionTime,faultsFound,comments,staffNo,vehicleRegNo)
+       values('2014-06-01','10:10:00',0,"No faults",(SELECT staffNo from Staff where Staff.firstName="Yonggao"),(SELECT vehicleRegNo from Vehicle where Vehicle.VIN="22222222222222222"));
 
 
 create table Lesson
@@ -128,6 +149,13 @@ INSERT INTO Lesson(lessonDate,lessonTime,stage,comments,staffNo,vehicleRegNo,cli
        values('2014-01-05','12:10:00',"Junior","2nd time",(SELECT staffNo from Staff where Staff.firstName="Lin"),(SELECT vehicleRegNo from Vehicle where Vehicle.VIN="11111111111111111"),(SELECT clientNo from Client where Client.firstName="Yuzhong"));
 
 
+INSERT INTO Lesson(lessonDate,lessonTime,stage,comments,staffNo,vehicleRegNo,clientNo)
+       values('2014-06-01','09:10:00',"Junior","1st time",(SELECT staffNo from Staff where Staff.firstName="Yonggao"),(SELECT vehicleRegNo from Vehicle where Vehicle.VIN="22222222222222222"),(SELECT clientNo from Client where Client.firstName="Hanbing"));
+
+INSERT INTO Lesson(lessonDate,lessonTime,stage,comments,staffNo,vehicleRegNo,clientNo)
+       values('2014-07-01','09:10:00',"Junior","2nd time",(SELECT staffNo from Staff where Staff.firstName="Yonggao"),(SELECT vehicleRegNo from Vehicle where Vehicle.VIN="22222222222222222"),(SELECT clientNo from Client where Client.firstName="Mahsa"));
+
+
 
 create table TakeLesson
 (
@@ -146,6 +174,15 @@ INSERT INTO TakeLesson(mileageStart,mileageFinish,comments,lessonNo,clientNo)
        values(35000,35035,"Good job",(SELECT lessonNo from Lesson where Lesson.clientNo = (SELECT clientNo from Client where Client.firstName="Yuzhong") and Lesson.lessonDate='2014-01-01'),(SELECT clientNo from Client where Client.firstName="Yuzhong"));
 
 
+INSERT INTO TakeLesson(mileageStart,mileageFinish,comments,lessonNo,clientNo)
+       values(56000,56035,"Good job",(SELECT lessonNo from Lesson where Lesson.clientNo = (SELECT clientNo from Client where Client.firstName="Hanbing") and Lesson.lessonDate='2014-06-01'),(SELECT clientNo from Client where Client.firstName="Hanbing"));
+
+
+INSERT INTO TakeLesson(mileageStart,mileageFinish,comments,lessonNo,clientNo)
+       values(57000,57035,"Good job",(SELECT lessonNo from Lesson where Lesson.clientNo = (SELECT clientNo from Client where Client.firstName="Mahsa") and Lesson.lessonDate='2014-07-01'),(SELECT clientNo from Client where Client.firstName="Mahsa"));
+
+
+
 create table Interview
 (
     interviewNo INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -162,6 +199,15 @@ create table Interview
 
 INSERT INTO Interview(interviewDate,interviewTime,interviewRoom,comments,driverLicenseNo,staffNo,clientNo)
        values('2014-01-01','09:10:00',"101","Novice","1111111",(SELECT staffNo from Staff where Staff.firstName="Lei"),(SELECT clientNo from Client where Client.firstName="Yuzhong"));
+
+INSERT INTO Interview(interviewDate,interviewTime,interviewRoom,comments,driverLicenseNo,staffNo,clientNo)
+       values('2014-01-10','09:10:00',"103","Novice","2222222",(SELECT staffNo from Staff where Staff.firstName="Lei"),(SELECT clientNo from Client where Client.firstName="Jie"));
+
+INSERT INTO Interview(interviewDate,interviewTime,interviewRoom,comments,driverLicenseNo,staffNo,clientNo)
+       values('2014-06-10','12:10:00',"102","Novice","3333333",(SELECT staffNo from Staff where Staff.firstName="Lei"),(SELECT clientNo from Client where Client.firstName="Hanbing"));
+
+INSERT INTO Interview(interviewDate,interviewTime,interviewRoom,comments,driverLicenseNo,staffNo,clientNo)
+       values('2014-07-05','10:10:00',"110","Novice","4444444",(SELECT staffNo from Staff where Staff.firstName="Lei"),(SELECT clientNo from Client where Client.firstName="Mahsa"));
 
 
 
