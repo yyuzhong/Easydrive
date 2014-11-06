@@ -155,6 +155,10 @@ inner join
 
 SELECT Branch.branchno,street,city,postcode, count(*) as staffnumber, S2.position,S2.fname,S2.lname FROM Branch inner JOIN Staff as S1 ON Branch.branchno=S1.branchno inner JOIN Staff as S2 ON Branch.branchno=S2.branchno where S2.position = 'Manager' group by Branch.branchno;
 
+select A.branchno,A.city,A.staffnumber,B.position,B.fname,B.lname from (SELECT t1.branchno,city,postcode,street,count(*) as staffnumber FROM Branch as t1 left outer join Staff as t2 on t1.branchno=t2.branchno group by t1.branchno) A
+left outer join
+(select s1.branchno,s1.position,s1.fname,s1.lname from Staff as s1 where s1.position='Manager') B on A.branchno=B.branchno;
+
 B2.
 select M1.staffNO,M1.fname,M1.lname, C1.clientNo,C1.fname,C1.lname, count(*) as viewTimes from (select S1.staffNO,S1.fname,S1.lname from Staff as S1 inner Join Branch as B1 on B1.branchno=S1.branchno where B1.city='Glasgow') M1 inner JOIN Registration as R1 on M1.staffNo=R1.staffNo inner Join Client as C1 on C1.clientNo=R1.clientNo inner JOIN Viewing as V1 on R1.clientNo=V1.clientNo  group by M1.staffNO;
 
