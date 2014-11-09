@@ -1,4 +1,4 @@
-drop table Branch;
+drop table IF EXISTS Branch;
 
 create table Branch
 (branchno char(5) not null,
@@ -15,7 +15,7 @@ insert into Branch values
 ('B004','32 Manse Rd','Bristol','BS99 1NZ'),
 ('B002','56 Clover Dr','London','NW10 6EU');
 
-drop table Staff;
+drop table IF EXISTS Staff;
 
 create table Staff
 (staffno char(5) not null,
@@ -40,7 +40,7 @@ insert into Staff values
 ('SA7','Sunny','Jia','Manager','F','1980-01-1',20000,'B007');
 
 
-drop table PropertyForRent;
+drop table IF EXISTS PropertyForRent;
 
 create table PropertyForRent 
 (propertyno char(5) not null, 
@@ -68,7 +68,7 @@ insert into PropertyForRent values
 
 
 
-drop table Client;
+drop table IF EXISTS Client;
 
 create table Client
 (clientno char(5) not null,
@@ -89,7 +89,7 @@ insert into Client values
 ('CR04','JN','Shi','01234-456789','Flat',900);
 
 
-drop table PrivateOwner;
+drop table IF EXISTS PrivateOwner;
 
 create table PrivateOwner 
 (ownerno char(5) not null,
@@ -109,7 +109,7 @@ insert into PrivateOwner values
 ('CO58','Jean','Fang','5606 Bissonnet ST','9876-543-2100');
 
 
-drop table Viewing;
+drop table IF EXISTS Viewing;
 
 create table Viewing
 (clientno char(5) not null,
@@ -128,7 +128,7 @@ insert into Viewing values
 ('CR29','PA7','1996-01-01','no fun'),
 ('CR04','PL7','1996-07-01','cost too much');
 
-drop table Registration;
+drop table IF EXISTS Registration;
 
 create table Registration
 (clientNo char(5) not null,
@@ -155,7 +155,7 @@ inner join
 
 SELECT Branch.branchno,street,city,postcode, count(*) as staffnumber, S2.position,S2.fname,S2.lname FROM Branch inner JOIN Staff as S1 ON Branch.branchno=S1.branchno inner JOIN Staff as S2 ON Branch.branchno=S2.branchno where S2.position = 'Manager' group by Branch.branchno;
 
-select A.branchno,A.city,A.staffnumber,B.position,B.fname,B.lname from (SELECT t1.branchno,city,postcode,street,count(*) as staffnumber FROM Branch as t1 left outer join Staff as t2 on t1.branchno=t2.branchno group by t1.branchno) A
+select A.branchno,A.city,A.staffnumber,B.position,B.fname,B.lname from (SELECT t1.branchno,city,postcode,street,count(t2.staffno) as staffnumber FROM Branch as t1 left outer join Staff as t2 on t1.branchno=t2.branchno group by t1.branchno) A
 left outer join
 (select s1.branchno,s1.position,s1.fname,s1.lname from Staff as s1 where s1.position='Manager') B on A.branchno=B.branchno;
 
