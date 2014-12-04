@@ -242,3 +242,24 @@ INSERT INTO DrivingTest(testDate,testTime,testCenter,testerName,attempt,result,p
        values('2014-08-10','10:10:00',"Cypress","Dr. Clee",1,90,"Ready to drive","Pass","Awesome",(SELECT staffNo from Staff where Staff.firstName="Yonggao"),(SELECT clientNo from Client where Client.firstName="Mahsa"));
 
 
+/*add more data for query*/
+
+INSERT INTO Staff(firstName, lastName, address,jobTitle,salary,sex,DOB,email,password,officeNo)
+VALUES ("Sunny","Jia","5510 Beechnut","Instructor","7777","F",'1980-12-01',"sunny@gmail.com","777777",(SELECT officeNo from Office where Office.postCode="77096"));
+
+INSERT INTO Lesson(lessonDate,lessonTime,stage,comments,staffNo,vehicleRegNo,clientNo)
+values('2014-07-04','09:10:00',"Junior","3rd time",(SELECT staffNo from Staff where Staff.firstName="Yonggao"),(SELECT vehicleRegNo from Vehicle where Vehicle.VIN="22222222222222222"),(SELECT clientNo from Client where Client.firstName="Mahsa"));
+
+INSERT INTO DrivingTest(testDate,testTime,testCenter,testerName,attempt,result,pTestComment,testMark,tTestComment,staffNo,clientNo)
+values('2014-06-10','10:10:00',"Gesener","Dr. LG",1,60,"Ready to drive","Fail","Signal",(SELECT staffNo from Staff where Staff.firstName="Lei"),(SELECT clientNo from Client where Client.firstName="Jie"));
+
+INSERT INTO DrivingTest(testDate,testTime,testCenter,testerName,attempt,result,pTestComment,testMark,tTestComment,staffNo,clientNo)
+values('2014-07-10','10:10:00',"Gesener","Dr. LG",2,70,"Ready to drive","Fail","Security belt",(SELECT staffNo from Staff where Staff.firstName="Lei"),(SELECT clientNo from Client where Client.firstName="Jie"));
+
+INSERT INTO DrivingTest(testDate,testTime,testCenter,testerName,attempt,result,pTestComment,testMark,tTestComment,staffNo,clientNo)
+values('2014-08-10','10:10:00',"Gesener","Dr. LG",3,75,"Ready to drive","Fail","Too fast",(SELECT staffNo from Staff where Staff.firstName="Lei"),(SELECT clientNo from Client where Client.firstName="Jie"));
+
+
+
+
+
